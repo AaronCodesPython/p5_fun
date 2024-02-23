@@ -1,42 +1,27 @@
-let slider1;
-let slider2;
-let slider3;
-let slider4;
+var minX = -2;
+var maxX = 2;
+var minY = -2;
+var maxY = 2;
+var rectX = 50;
+var rectY = 50;
+var curInp = false;
+var inputs = [];
 function setup() {
+    rectMode(CENTER);
     createCanvas(400,400);
     pixelDensity(1);
-    slider1 = createSlider(-2, 0);
-    slider1.position(10, 10);
-    slider1.size(80);
-    slider1.value(-2);
+    
+    
 
-    slider2 = createSlider(0.0001, 2);
-    slider2.position(100, 10);
-    slider2.size(80);
-    slider2.value(2);
-
-    slider3 = createSlider(-10, 10);
-    slider3.position(10, 40);
-    slider3.size(80);
-    slider3.value(-2);
-
-    slider4 = createSlider(2, 3);
-    slider4.position(100, 40);
-    slider4.size(80);
-    slider4.value(2);
 }
+
+function onInput(){}
+
 function draw(){
     loadPixels();
     background(150);
-    /*var minX = slider1.value();
-    var maxX = slider2.value();
-    var minY = slider3.value();
-    var maxY = slider4.value();
-*/
-    var minX = 0.42;
-    var maxX = 0.43;
-    var minY = -0.2;
-    var maxY = -0.22;
+    
+    
     for(x= 0; x<width; x++){
         for(y = 0; y<height; y++){
             var a = map(x,0,width,minX,maxX);
@@ -67,5 +52,40 @@ function draw(){
         
     }
     updatePixels();
-    
+    fill(255,0,0,50);
+    rect(mouseX,mouseY,50,50);
+    fill(255)
+    text("type !x.y to change selection radius",10,10);
+    if(curInp){
+        text(inputs, 10, 30)
+    }
+}
+
+function keyPressed() { 
+    console.log(key);
+    if(key == "!"){
+        curInp = true;
+        inputs =[];
+    }
+    else if(curInp){
+        inputs.push(key);
+        console.log(inputs);
+    }
+    if(key == "Enter"){
+        curInp = false;
+    }
+
+  } 
+
+function mouseClicked(){
+    // we are given the current real max and min coordinates, and
+    // the current height and width and the new height and new width
+    var c1 = map(mouseX+25,0,width, minX,maxX);
+    var c2 = map(mouseX-25,0,width, minX,maxX);
+    var c3 = map(mouseY+25,0,width, minY,maxY);
+    var c4 = map(mouseY-25,0,width, minY,maxY);
+    maxX = c1;
+    minX = c2;
+    maxY = c3;
+    minY = c4;
 }
