@@ -53,39 +53,37 @@ function draw(){
     }
     updatePixels();
     fill(255,0,0,50);
-    rect(mouseX,mouseY,50,50);
-    fill(255)
-    text("type !x.y to change selection radius",10,10);
-    if(curInp){
-        text(inputs, 10, 30)
-    }
+    if(mouseX < width && mouseY < height && mouseY > 0){
+        rect(mouseX,mouseY,rectX,rectY);
+    } 
+    
+    fill(255,0,0);
+    text(`-x/x: ${minX}/${maxX}`,10,10);
+    text(`-y/y: ${minY}/${maxY}`,10,30);
 }
 
-function keyPressed() { 
-    console.log(key);
-    if(key == "!"){
-        curInp = true;
-        inputs =[];
-    }
-    else if(curInp){
-        inputs.push(key);
-        console.log(inputs);
-    }
-    if(key == "Enter"){
-        curInp = false;
-    }
 
-  } 
 
 function mouseClicked(){
+    if(mouseX < width && mouseY < height && mouseY > 0){
+        var c1 = map(mouseX+rectX/2,0,width, minX,maxX);
+        var c2 = map(mouseX-rectX/2,0,width, minX,maxX);
+        var c3 = map(mouseY+rectY/2,0,width, minY,maxY);
+        var c4 = map(mouseY-rectY/2,0,width, minY,maxY);
+        maxX = c1;
+        minX = c2;
+        maxY = c3;
+        minY = c4;
+    }
     // we are given the current real max and min coordinates, and
     // the current height and width and the new height and new width
-    var c1 = map(mouseX+25,0,width, minX,maxX);
-    var c2 = map(mouseX-25,0,width, minX,maxX);
-    var c3 = map(mouseY+25,0,width, minY,maxY);
-    var c4 = map(mouseY-25,0,width, minY,maxY);
-    maxX = c1;
-    minX = c2;
-    maxY = c3;
-    minY = c4;
+    
+}
+
+function setRectSize(){
+    var xSize = Number(document.getElementById("xSize").value);
+    var ySize = Number(document.getElementById("ySize").value);
+    rectX = xSize;
+    rectY = ySize;
+    console.log("wdawd")
 }
